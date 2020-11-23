@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "puppeteer": "^5.5.0"
+    "dotenv": "^8.2.0",
+    "puppeteer-core": "^5.5.0"
   }
 }
