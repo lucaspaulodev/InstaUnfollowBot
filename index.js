@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer-core');
   //Setup browser pupperteer
   const browser = await puppeteer.launch({
     headless: false,
-    defaultViewport: {width: 1920, height: 1080},
+    defaultViewport: {width: 1200, height: 800},
     executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
   });
   
@@ -26,15 +26,15 @@ const puppeteer = require('puppeteer-core');
   await page.click('button[type="submit"]')
 
   //Navigating within the profile
-  await page.waitForSelector('#react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div.ctQZg > div > div:nth-child(5) > span')
-  await page.click('#react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div.ctQZg > div > div:nth-child(5) > span')
-  await page.waitForSelector('#react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div.ctQZg > div > div:nth-child(5) > div.poA5q > div.uo5MA._2ciX.tWgj8.XWrBI > div._01UL2 > a:nth-child(1)')
-  await page.click('#react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div.ctQZg > div > div:nth-child(5) > div.poA5q > div.uo5MA._2ciX.tWgj8.XWrBI > div._01UL2 > a:nth-child(1)')
-  await page.waitForSelector('.k9GMp')
+  await page.waitForNavigation();
+  await page.goto('https://instagram.com/_lucaspaulo/');
+  await page.click('ul > li:nth-child(2) > a')
+  await page.waitForNavigation();
+  await page.evaluate()
 
   //Taking a screenshot of the profile screen
-  await page.screenshot({path: 'me.png'})
+  //await page.screenshot({path: 'me.png'})
 
   //Closing the Browser
-  await browser.close();
+  //await browser.close();
 })();
