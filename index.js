@@ -29,11 +29,28 @@ const puppeteer = require('puppeteer-core');
   await page.waitForNavigation();
   await page.goto('https://instagram.com/_lucaspaulo/');
   await page.click('ul > li:nth-child(2) > a')
-  await page.waitForNavigation();
 
-  //Taking a screenshot of the profile screen
-  //await page.screenshot({path: 'me.png'})
+  await page.evaluate(()=>{
+    window.setInterval(function() {
+      var followersBox = document.querySelector('.isgrP');
+      followersBox.scrollTop = followersBox.scrollHeight;
+    }, 1000);
+  })
+
+  await page.evaluate(()=>{
+    var followers = document.querySelectorAll("div.d7ByH > span > a").forEach(follower => follower.innerHTML)
+
+    console.log(followers);
+  })
+
 
   //Closing the Browser
   //await browser.close();
 })();
+
+/*window.setInterval(function() {
+  var elem = document.querySelector('.isgrP');
+  elem.scrollTop = elem.scrollHeight;
+}, 500);*/
+
+// document.querySelectorAll("div.d7ByH > span > a")
