@@ -30,7 +30,6 @@ const puppeteer = require('puppeteer-core');
   await page.goto('https://instagram.com/_lucaspaulo/');
   await page.click('ul > li:nth-child(2) > a')
   await page.waitForNavigation();
-  await page.evaluate()
 
   //Taking a screenshot of the profile screen
   //await page.screenshot({path: 'me.png'})
