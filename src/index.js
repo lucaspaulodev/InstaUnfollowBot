@@ -1,11 +1,17 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer-core');
 
-(async () => {
+async function startBot() {
   //Defining environment variables
   const USER = process.env.USER
   const PASSWORD = process.env.PASSWORD
 
+  async function getFollowers(page) {
+    const followers = await page.$$eval('div.d7ByH > span > a', users => users.map(user => user.innerText))
+    
+    return followers;
+  }
+    
   //Setup browser pupperteer
   const browser = await puppeteer.launch({
     headless: false,
@@ -30,27 +36,29 @@ const puppeteer = require('puppeteer-core');
   await page.goto('https://instagram.com/_lucaspaulo/');
   await page.click('ul > li:nth-child(2) > a')
 
-  await page.evaluate(()=>{
-    window.setInterval(function() {
-      var followersBox = document.querySelector('.isgrP');
+  await page.evaluate(async ()=>{
+    const scrollToGetData = window.setInterval(() => {
+      const followersBox = document.querySelector('.isgrP');
       followersBox.scrollTop = followersBox.scrollHeight;
+
+      console.log(followersBox.scrollTop)
+      console.log(followersBox.scrollHeight)
+  
+      if(followersBox.scrollHeight==88668){
+        clearInterval(scrollToGetData);
+      }
     }, 1000);
   })
+  
+  const followers = await getFollowers(page)
 
-  await page.evaluate(()=>{
-    var followers = document.querySelectorAll("div.d7ByH > span > a").forEach(follower => follower.innerHTML)
-
-    console.log(followers);
-  })
-
+  console.log(followers);
+  
 
   //Closing the Browser
   //await browser.close();
-})();
+};
 
-/*window.setInterval(function() {
-  var elem = document.querySelector('.isgrP');
-  elem.scrollTop = elem.scrollHeight;
-}, 500);*/
+startBot();
 
 // document.querySelectorAll("div.d7ByH > span > a")
