@@ -6,12 +6,6 @@ async function startBot() {
   const USER = process.env.USER
   const PASSWORD = process.env.PASSWORD
 
-  async function getFollowers(page) {
-    const followers = await page.$$eval('div.d7ByH > span > a', users => users.map(user => user.innerText))
-    
-    return followers;
-  }
-    
   //Setup browser pupperteer
   const browser = await puppeteer.launch({
     headless: false,
@@ -33,32 +27,24 @@ async function startBot() {
 
   //Navigating within the profile
   await page.waitForNavigation();
-  await page.goto('https://instagram.com/_lucaspaulo/');
+  await page.goto(`https://instagram.com/${USER}/`);
   await page.click('ul > li:nth-child(2) > a')
 
-  await page.evaluate(async ()=>{
+  await page.evaluate(() => {
+    const numberOfFollowers = Number(document.querySelector("ul > li:nth-child(2) > a > span").innerText)
     const scrollToGetData = window.setInterval(() => {
       const followersBox = document.querySelector('.isgrP');
       followersBox.scrollTop = followersBox.scrollHeight;
 
-      console.log(followersBox.scrollTop)
-      console.log(followersBox.scrollHeight)
-  
-      if(followersBox.scrollHeight==88668){
-        clearInterval(scrollToGetData);
+      const numberOfProfiles = document.querySelectorAll("div.d7ByH > span > a").length
+      if(numberOfProfiles == numberOfFollowers){
+        clearInterval(scrollToGetData)
       }
-    }, 1000);
-  })
+    }, 2000);
+  });
   
-  const followers = await getFollowers(page)
-
-  console.log(followers);
-  
-
   //Closing the Browser
   //await browser.close();
 };
 
 startBot();
-
-// document.querySelectorAll("div.d7ByH > span > a")
