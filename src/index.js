@@ -30,24 +30,27 @@ async function startBot() {
   await page.goto(`https://instagram.com/${USER}/`);
   await page.click('ul > li:nth-child(2) > a')
 
+  //Getting followers @
   await page.evaluate(() => {
-    const numberOfFollowers = Number(document.querySelector("ul > li:nth-child(2) > a > span").innerText)
+    const numberToStop = Number(document.querySelector("ul > li:nth-child(2) > a > span").innerText)
 
-    const scrollToGetData = window.setInterval(() => {
+    const scrollingBox = window.setInterval(() => {
       const numberOfProfiles = document.querySelectorAll("div.d7ByH > span > a").length
-      const followersBox = document.querySelector('.isgrP');
-      followersBox.scrollTop = followersBox.scrollHeight;
-      console.log(followersBox.scrollHeight);
-      if(numberOfProfiles == numberOfFollowers){
-        document.querySelectorAll("div.d7ByH > span > a").item(numberOfFollowers-1).classList.add('lastItem')
-        clearInterval(scrollToGetData)
+      const divBox = document.querySelector('.isgrP');
+
+      divBox.scrollTop = divBox.scrollHeight;
+
+      if(numberOfProfiles == numberToStop){
+        document.querySelectorAll("div.d7ByH > span > a").item(numberToStop-1).classList.add('lastItem')
+        clearInterval(scrollingBox)
       }
+
     }, 2000);
   });
 
   await page.waitForSelector('.lastItem')
 
-  const profiles = await page.evaluate(() => {
+  const followersProfiles = await page.evaluate(() => {
     const profileList = document.querySelectorAll("div.d7ByH > span > a")
 
     const profileNames = Array.from(profileList).map(user => user.innerHTML);
@@ -55,8 +58,39 @@ async function startBot() {
     return profileNames;
   })
 
-  console.log(profiles)
+  console.log(followersProfiles);
 
+  //Getting following @
+  await page.click('button > div > svg')
+  await page.click('ul > li:nth-child(3) > a')
+
+  await page.evaluate(() => {
+    const numberToStop = Number(document.querySelector("ul > li:nth-child(3) > a > span").innerText)
+
+    const scrollingBox = window.setInterval(() => {
+      const numberOfProfiles = document.querySelectorAll("div.d7ByH > span > a").length
+      const divBox = document.querySelector('.isgrP');
+
+      divBox.scrollTop = divBox.scrollHeight;
+
+      if(numberOfProfiles == numberToStop){
+        document.querySelectorAll("div.d7ByH > span > a").item(numberToStop-1).classList.add('lastItem')
+        clearInterval(scrollingBox)
+      }
+
+    }, 2000);
+  });
+
+  await page.waitForSelector('.lastItem')
+
+  const followingProfiles = await page.evaluate(() => {
+    const profileList = document.querySelectorAll("div.d7ByH > span > a")
+    const profileNames = Array.from(profileList).map(user => user.innerHTML);
+
+    return profileNames;
+  })
+
+  console.log(followingProfiles);
 
 
   //Closing the Browser
