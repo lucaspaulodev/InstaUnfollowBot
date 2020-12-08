@@ -32,17 +32,33 @@ async function startBot() {
 
   await page.evaluate(() => {
     const numberOfFollowers = Number(document.querySelector("ul > li:nth-child(2) > a > span").innerText)
+
     const scrollToGetData = window.setInterval(() => {
+      const numberOfProfiles = document.querySelectorAll("div.d7ByH > span > a").length
       const followersBox = document.querySelector('.isgrP');
       followersBox.scrollTop = followersBox.scrollHeight;
-
-      const numberOfProfiles = document.querySelectorAll("div.d7ByH > span > a").length
+      console.log(followersBox.scrollHeight);
       if(numberOfProfiles == numberOfFollowers){
+        document.querySelectorAll("div.d7ByH > span > a").item(numberOfFollowers-1).classList.add('lastItem')
         clearInterval(scrollToGetData)
       }
     }, 2000);
   });
-  
+
+  await page.waitForSelector('.lastItem')
+
+  const profiles = await page.evaluate(() => {
+    const profileList = document.querySelectorAll("div.d7ByH > span > a")
+
+    const profileNames = Array.from(profileList).map(user => user.innerHTML);
+
+    return profileNames;
+  })
+
+  console.log(profiles)
+
+
+
   //Closing the Browser
   //await browser.close();
 };
