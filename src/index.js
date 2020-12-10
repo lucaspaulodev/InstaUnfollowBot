@@ -45,7 +45,7 @@ async function startBot() {
         clearInterval(scrollingBox)
       }
 
-    }, 2000);
+    }, 3000);
   });
 
   await page.waitForSelector('.lastItem')
@@ -58,7 +58,7 @@ async function startBot() {
     return profileNames;
   })
 
-  console.log(followersProfiles);
+  console.log('FOLLOWERS LIST:\n',followersProfiles);
 
   //Getting following @
   await page.click('button > div > svg')
@@ -78,7 +78,7 @@ async function startBot() {
         clearInterval(scrollingBox)
       }
 
-    }, 2000);
+    }, 3000);
   });
 
   await page.waitForSelector('.lastItem')
@@ -90,7 +90,11 @@ async function startBot() {
     return profileNames;
   })
 
-  console.log(followingProfiles);
+  console.log('FOLLOWING PROFILES:\n',followersProfiles);
+
+  const unmutualFollowers =  followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
+
+  console.log('UNMUTUAL FOLLOWERS',unmutualFollowers);
 
 
   //Closing the Browser
