@@ -1,5 +1,13 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer-core');
+const os = require('os');
+
+const executablePaths = {
+  'linux': '/usr/bin/google-chrome',
+  'darwin': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+}
+
+const platform = os.platform
 
 async function startBot() {
   //Defining environment variables
@@ -10,7 +18,7 @@ async function startBot() {
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: {width: 1200, height: 800},
-    executablePath: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+    executablePath: executablePaths[platform]
   });
   
   //Opening the browser
