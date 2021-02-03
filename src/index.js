@@ -105,24 +105,30 @@ async function startBot() {
 
   console.log('UNMUTUAL FOLLOWERS', unmutualFollowers);
 
-  await page.evaluate((unmutualFollowers) => {
-    unmutualFollowers.forEach(unmutualFollower => {
-      var user = document.querySelector(`a[title="${unmutualFollower}"]`)
-      console.log(user)
-      var userFather = user.closest('div.HVWg4')
-      console.log(userFather)
-      var userButton = userFather.querySelector('button')
-      console.log(userButton)
-      
-      userButton.click()
-      
-      var unfollowButton = document.querySelector('-Cab_')
+  if(unmutualFollowers.length !== 0) {
+    await page.evaluate((unmutualFollowers) => {
+      unmutualFollowers.forEach(unmutualFollower => {
+        var user = document.querySelector(`a[title="${unmutualFollower}"]`)
+        console.log(user)
+        var userFather = user.closest('li')
+        console.log(userFather)
+        var userButton = userFather.querySelector('button')
+        console.log(userButton)
+        
+        userButton.click()
+        
+        var unfollowButton = document.querySelector('button.-Cab_')
+  
+        unfollowButton.click()
+  
+      });
+    }, unmutualFollowers)
 
-      unfollowButton.click()
-
-    });
-  }, unmutualFollowers)
-
+  }
+  else {
+    console.log("You don´t have unmutual followers")
+  }
+  
   //Closing the Browser
   //await browser.close();
 };

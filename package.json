@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "dev": "node src/index.js"
+  },
   "dependencies": {
     "dotenv": "^8.2.0",
     "puppeteer-core": "^5.5.0"
