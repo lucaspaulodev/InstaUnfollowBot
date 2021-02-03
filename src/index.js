@@ -4,7 +4,8 @@ const os = require('os');
 
 const executablePaths = {
   'linux': '/usr/bin/google-chrome',
-  'darwin': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  'darwin': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  'win32': 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
 }
 
 const platform = os.platform
@@ -56,7 +57,7 @@ async function startBot() {
     }, 3000);
   });
 
-  await page.waitForSelector('.lastItem')
+  await page.waitForSelector('.lastItem', {timeout: 0})
 
   const followersProfiles = await page.evaluate(() => {
     const profileList = document.querySelectorAll("div.d7ByH > span > a")
@@ -89,7 +90,7 @@ async function startBot() {
     }, 3000);
   });
 
-  await page.waitForSelector('.lastItem')
+  await page.waitForSelector('.lastItem', {timeout: 0})
 
   const followingProfiles = await page.evaluate(() => {
     const profileList = document.querySelectorAll("div.d7ByH > span > a")
@@ -100,10 +101,9 @@ async function startBot() {
 
   console.log('FOLLOWING PROFILES:\n',followersProfiles);
 
-  const unmutualFollowers =  followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
+  const unmutualFollowers = followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
 
   console.log('UNMUTUAL FOLLOWERS',unmutualFollowers);
-
 
   //Closing the Browser
   //await browser.close();
