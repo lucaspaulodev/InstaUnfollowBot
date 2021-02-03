@@ -1,5 +1,6 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer-core');
+const readlineSync = require('readline-sync')
 const os = require('os');
 
 const executablePaths = {
@@ -10,7 +11,7 @@ const executablePaths = {
 
 const platform = os.platform
 
-async function startBot() {
+async function startInstagramUnfollowBot() {
   //Defining environment variables
   const USER = process.env.USER
   const PASSWORD = process.env.PASSWORD
@@ -101,36 +102,72 @@ async function startBot() {
 
   console.log('FOLLOWING PROFILES:\n',followersProfiles);
 
-  const unmutualFollowers = followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
+  const nonMutualFollowers = followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
 
-  console.log('UNMUTUAL FOLLOWERS', unmutualFollowers);
+  console.log('UNMUTUAL FOLLOWERS', nonMutualFollowers);
 
-  if(unmutualFollowers.length !== 0) {
-    await page.evaluate((unmutualFollowers) => {
-      unmutualFollowers.forEach(unmutualFollower => {
-        var user = document.querySelector(`a[title="${unmutualFollower}"]`)
-        console.log(user)
-        var userFather = user.closest('li')
-        console.log(userFather)
-        var userButton = userFather.querySelector('button')
-        console.log(userButton)
-        
-        userButton.click()
-        
-        var unfollowButton = document.querySelector('button.-Cab_')
-  
-        unfollowButton.click()
-  
-      });
-    }, unmutualFollowers)
+
+  if(nonMutualFollowers.length !== 0) {
+    var userOptions = ['Unfollow all non-mutual followers', 'Unfollow a specific quantity of non-mutual followers']
+    var index = readlineSync.keyInSelect(userOptions, 'Which option you whant?');
+
+    if(index === 0) {
+      await page.evaluate((nonMutualFollowers) => {
+        nonMutualFollowers.forEach(nonMutualFollower => {
+          var user = document.querySelector(`a[title="${nonMutualFollower}"]`)
+          console.log(user)
+          var userFather = user.closest('li')
+          console.log(userFather)
+          var userButton = userFather.querySelector('button')
+          console.log(userButton)
+          
+          userButton.click()
+          
+          var unfollowButton = document.querySelector('button.-Cab_')
+    
+          unfollowButton.click()
+    
+        });
+      }, nonMutualFollowers)
+    }
+    else if(index === 1){
+      var quantityToUnfollow = readlineSync.questionInt('How many do you want to stop following?')
+      await page.evaluate((nonMutualFollowers, quantityToUnfollow) => {
+        for(var i=0; i<= quantityToUnfollow; i++) {
+          var user = document.querySelector(`a[title="${nonMutualFollowers[i]}"]`)
+          console.log(user)
+          var userFather = user.closest('li')
+          console.log(userFather)
+          var userButton = userFather.querySelector('button')
+          console.log(userButton)
+          
+          userButton.click()
+          
+          var unfollowButton = document.querySelector('button.-Cab_')
+    
+          unfollowButton.click()
+        }
+      }, nonMutualFollowers, quantityToUnfollow)
+
+      console.log('You unfollow this users:\n')
+      for(var i=0; i<quantityToUnfollow; i++) {
+        console.log(nonMutualFollowers[i])
+      }
+
+    }
+    else {
+      console.log("You exited from the robot")
+      await browser.close();
+    }
 
   }
   else {
-    console.log("You don´t have unmutual followers")
+    console.log("You don´t have non-mutual followers!!")
+    await browser.close();
   }
   
-  //Closing the Browser
-  //await browser.close();
+  //Close the Browser
+  await browser.close();
 };
 
-startBot();
+startInstagramUnfollowBot();

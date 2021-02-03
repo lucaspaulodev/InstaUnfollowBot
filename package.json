@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "puppeteer-core": "^5.5.0"
+    "puppeteer-core": "^5.5.0",
+    "readline-sync": "^1.4.10"
   }
 }
