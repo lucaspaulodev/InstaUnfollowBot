@@ -103,7 +103,25 @@ async function startBot() {
 
   const unmutualFollowers = followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
 
-  console.log('UNMUTUAL FOLLOWERS',unmutualFollowers);
+  console.log('UNMUTUAL FOLLOWERS', unmutualFollowers);
+
+  await page.evaluate((unmutualFollowers) => {
+    unmutualFollowers.forEach(unmutualFollower => {
+      var user = document.querySelector(`a[title="${unmutualFollower}"]`)
+      console.log(user)
+      var userFather = user.closest('div.HVWg4')
+      console.log(userFather)
+      var userButton = userFather.querySelector('button')
+      console.log(userButton)
+      
+      userButton.click()
+      
+      var unfollowButton = document.querySelector('-Cab_')
+
+      unfollowButton.click()
+
+    });
+  }, unmutualFollowers)
 
   //Closing the Browser
   //await browser.close();
