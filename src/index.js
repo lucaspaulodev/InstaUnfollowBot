@@ -42,7 +42,15 @@ async function startInstagramUnfollowBot() {
 
   //Getting followers @
   await page.evaluate(() => {
-    const numberToStop = Number(document.querySelector("ul > li:nth-child(2) > a > span").innerText)
+    var numberToStop = document.querySelector("ul > li:nth-child(2) > a > span").innerText
+
+    if(numberToStop.includes('.')){
+      numberToStop = Number(numberToStop.replace('.',''))
+    }
+    else{
+      numberToStop = Number(numberToStop)
+    }
+
     console.log(numberToStop)
     const scrollingBox = window.setInterval(() => {
       const numberOfProfiles = document.querySelectorAll("div.d7ByH").length
@@ -50,7 +58,7 @@ async function startInstagramUnfollowBot() {
       console.log(numberOfProfiles)
       divBox.scrollTop = divBox.scrollHeight;
 
-      if(numberOfProfiles == (numberToStop-1)){
+      if(numberOfProfiles === (numberToStop-2)){
         document.querySelectorAll("div.d7ByH").item(numberOfProfiles-1).classList.add('lastItem')
         clearInterval(scrollingBox)
       }
@@ -75,7 +83,15 @@ async function startInstagramUnfollowBot() {
   await page.click('ul > li:nth-child(3) > a')
 
   await page.evaluate(() => {
-    const numberToStop = Number(document.querySelector("ul > li:nth-child(3) > a > span").innerText)
+    var numberToStop = document.querySelector("ul > li:nth-child(3) > a > span").innerText
+
+    if(numberToStop.includes('.')){
+      numberToStop = Number(numberToStop.replace('.',''))
+    }
+    else{
+      numberToStop = Number(numberToStop)
+    }
+
     console.log(numberToStop)
     const scrollingBox = window.setInterval(() => {
       const numberOfProfiles = document.querySelectorAll("div.d7ByH").length
@@ -83,7 +99,7 @@ async function startInstagramUnfollowBot() {
       console.log(numberOfProfiles)
       divBox.scrollTop = divBox.scrollHeight;
 
-      if(numberOfProfiles == (numberToStop-1)){
+      if(numberOfProfiles === (numberToStop-3)){
         document.querySelectorAll("div.d7ByH").item(numberOfProfiles-1).classList.add('lastItem')
         clearInterval(scrollingBox)
       }
@@ -114,18 +130,20 @@ async function startInstagramUnfollowBot() {
     if(index === 0) {
       await page.evaluate((nonMutualFollowers) => {
         nonMutualFollowers.forEach(nonMutualFollower => {
-          var user = document.querySelector(`a[title="${nonMutualFollower}"]`)
-          console.log(user)
-          var userFather = user.closest('li')
-          console.log(userFather)
+          var username = nonMutualFollower
+          var userTag = document.querySelector(`a[title="${username}"]`)
+          var userFather = userTag.closest('li')
           var userButton = userFather.querySelector('button')
-          console.log(userButton)
           
           userButton.click()
           
           var unfollowButton = document.querySelector('button.-Cab_')
     
           unfollowButton.click()
+
+          setTimeout((username) => {
+            console.log(`Stop following ${username}`)
+          }, 1000)
     
         });
       }, nonMutualFollowers)
@@ -134,18 +152,18 @@ async function startInstagramUnfollowBot() {
       var quantityToUnfollow = readlineSync.questionInt('How many do you want to stop following?\n')
       await page.evaluate((nonMutualFollowers, quantityToUnfollow) => {
         for(var i=0; i<= quantityToUnfollow; i++) {
-          var user = document.querySelector(`a[title="${nonMutualFollowers[i]}"]`)
-          console.log(user)
-          var userFather = user.closest('li')
-          console.log(userFather)
+          var username = nonMutualFollowers[i]
+          var userTag = document.querySelector(`a[title="${username}"]`)
+          var userFather = userTag.closest('li')
           var userButton = userFather.querySelector('button')
-          console.log(userButton)
-          
           userButton.click()
           
           var unfollowButton = document.querySelector('button.-Cab_')
     
           unfollowButton.click()
+          setTimeout((username) => {
+            console.log(`Stop following ${username}`)
+          }, 1000)
         }
       }, nonMutualFollowers, quantityToUnfollow)
 
