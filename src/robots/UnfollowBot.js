@@ -10,7 +10,7 @@ async function UnfollowBot(nonMutualFollowers, page) {
 
         if (index === 0) {
             await page.evaluate((nonMutualFollowers) => {
-                for (var i = 0; i <= 20; i++) {
+                for (var i = 0; i < 20; i++) {
                     var username = nonMutualFollowers[i]
                     var userTag = document.querySelector(`a[title="${username}"]`)
                     var userFather = userTag.closest('li')
@@ -30,7 +30,7 @@ async function UnfollowBot(nonMutualFollowers, page) {
         }
         else if (index === 1) {
             await page.evaluate((nonMutualFollowers) => {
-                for (var i = 0; i <= 40; i++) {
+                for (var i = 0; i < 40; i++) {
                     var username = nonMutualFollowers[i]
                     var userTag = document.querySelector(`a[title="${username}"]`)
                     var userFather = userTag.closest('li')
@@ -44,17 +44,17 @@ async function UnfollowBot(nonMutualFollowers, page) {
                         console.log(`Stop following ${username}`)
                     }, 2000)
                 }
-            }, nonMutualFollowers, quantityToUnfollow)
+            }, nonMutualFollowers)
 
             console.log('You unfollow this users:\n')
-            for (var i = 0; i < quantityToUnfollow; i++) {
+            for (var i = 0; i < 40; i++) {
                 console.log(nonMutualFollowers[i])
             }
             await browser.close();
         }
         else if (index === 2) {
             await page.evaluate((nonMutualFollowers) => {
-                for (var i = 0; i <= 80; i++) {
+                for (var i = 0; i < 80; i++) {
                     var username = nonMutualFollowers[i]
                     var userTag = document.querySelector(`a[title="${username}"]`)
                     var userFather = userTag.closest('li')
@@ -68,10 +68,10 @@ async function UnfollowBot(nonMutualFollowers, page) {
                         console.log(`Stop following ${username}`)
                     }, 2000)
                 }
-            }, nonMutualFollowers, quantityToUnfollow)
+            }, nonMutualFollowers)
 
             console.log('You unfollow this users:\n')
-            for (var i = 0; i < quantityToUnfollow; i++) {
+            for (var i = 0; i < 80; i++) {
                 console.log(nonMutualFollowers[i])
             }
             await browser.close();
