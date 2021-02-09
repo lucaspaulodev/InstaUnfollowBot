@@ -2,31 +2,8 @@ require('dotenv').config();
 const puppeteer = require('puppeteer-core');
 const readlineSync = require('readline-sync')
 
-const browserConfig = require('./config/browserConfig')
-
-async function UnfollowBot(followersProfiles, followingProfiles) {
+async function UnfollowBot(nonMutualFollowers, page) {
     console.log('Initializing UnfollowBot')
-    const browser = await puppeteer.launch(browserConfig);
-
-    //Opening the browser
-    const page = await browser.newPage();
-
-    //Loading page address
-    await page.goto('https://instagram.com/');
-    await page.waitForSelector('input[name="username"]')
-
-    //Typing instagram credentials to sign in
-    await page.type('input[name="username"]', process.env.USER)
-    await page.type('input[name="password"]', process.env.PASSWORD)
-    await page.click('button[type="submit"]')
-
-    //Navigating within the profile
-    await page.waitForNavigation();
-    await page.goto(`https://instagram.com/${process.env.USER}/`);
-    await page.click('ul > li:nth-child(3) > a')
-
-    const nonMutualFollowers = followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
-
     console.log('UNMUTUAL FOLLOWERS', nonMutualFollowers);
 
     if (nonMutualFollowers.length !== 0) {
@@ -77,7 +54,7 @@ async function UnfollowBot(followersProfiles, followingProfiles) {
             for (var i = 0; i < quantityToUnfollow; i++) {
                 console.log(nonMutualFollowers[i])
             }
-
+            await browser.close();
         }
         else {
             console.log("You exited from the robot")

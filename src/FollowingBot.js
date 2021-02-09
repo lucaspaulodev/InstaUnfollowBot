@@ -42,7 +42,7 @@ async function FollowingBot () {
         console.log(numberOfProfiles)
         divBox.scrollTop = divBox.scrollHeight;
   
-        if(numberOfProfiles === numberToStop){
+        if(numberToStop === numberOfProfiles || numberToStop === numberOfProfiles+1 || numberToStop === numberOfProfiles+2 || numberToStop === numberOfProfiles+3){
           document.querySelectorAll("div.d7ByH").item(numberOfProfiles).classList.add('lastItem')
           clearInterval(scrollingBox)
         }
@@ -62,7 +62,7 @@ async function FollowingBot () {
   
     console.log('FOLLOWERS LIST:\n', followingProfiles);
 
-    return followingProfiles
+    return {followingProfiles, page}
 }
 
 module.exports = FollowingBot
