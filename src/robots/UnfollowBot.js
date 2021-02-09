@@ -5,7 +5,7 @@ async function UnfollowBot(nonMutualFollowers, page) {
     console.log('UNMUTUAL FOLLOWERS', nonMutualFollowers);
 
     if (nonMutualFollowers.length !== 0) {
-        var userOptions = ['Unfollow 20 non-mutual followers', 'Unfollow 40 non-mutual followers', 'Unfollow 60 non-mutual followers']
+        var userOptions = ['Unfollow 20 non-mutual followers', 'Unfollow 40 non-mutual followers', 'Unfollow 80 non-mutual followers']
         var index = readlineSync.keyInSelect(userOptions, 'Which option you whant? (You can unfollow 160 profiles per hour in Instagram)');
 
         if (index === 0) {
@@ -54,7 +54,7 @@ async function UnfollowBot(nonMutualFollowers, page) {
         }
         else if (index === 2) {
             await page.evaluate((nonMutualFollowers) => {
-                for (var i = 0; i <= 60; i++) {
+                for (var i = 0; i <= 80; i++) {
                     var username = nonMutualFollowers[i]
                     var userTag = document.querySelector(`a[title="${username}"]`)
                     var userFather = userTag.closest('li')
