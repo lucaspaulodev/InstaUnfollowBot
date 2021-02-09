@@ -1,6 +1,6 @@
-const FollowersBot = require('./FollowersBot')
-const FollowingBot = require('./FollowingBot')
-const UnfollowBot = require('./UnfollowBot')
+const FollowersBot = require('./robots/FollowersBot')
+const FollowingBot = require('./robots/FollowingBot')
+const UnfollowBot = require('./robots/UnfollowBot')
 
 async function startInstagramUnfollowBot() {
   const followersProfiles = await FollowersBot()

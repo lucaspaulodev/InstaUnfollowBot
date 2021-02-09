@@ -1,5 +1,3 @@
-require('dotenv').config();
-const puppeteer = require('puppeteer-core');
 const readlineSync = require('readline-sync')
 
 async function UnfollowBot(nonMutualFollowers, page) {
