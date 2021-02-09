@@ -26,10 +26,12 @@ async function UnfollowBot(nonMutualFollowers, page) {
 
                     setTimeout((username) => {
                         console.log(`Stop following ${username}`)
-                    }, 1000)
+                    }, 2000)
 
                 });
             }, nonMutualFollowers)
+
+            await browser.close();
         }
         else if (index === 1) {
             var quantityToUnfollow = readlineSync.questionInt('How many do you want to stop following?\n')
@@ -46,7 +48,7 @@ async function UnfollowBot(nonMutualFollowers, page) {
                     unfollowButton.click()
                     setTimeout((username) => {
                         console.log(`Stop following ${username}`)
-                    }, 1000)
+                    }, 2000)
                 }
             }, nonMutualFollowers, quantityToUnfollow)
 
