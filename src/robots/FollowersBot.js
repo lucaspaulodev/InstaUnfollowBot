@@ -12,7 +12,7 @@ async function FollowersBot () {
     //Loading page address
     await page.goto('https://instagram.com/');
     await page.waitForSelector('input[name="username"]')
-  
+
     //Typing instagram credentials to sign in
     await page.type('input[name="username"]', process.env.USER)
     await page.type('input[name="password"]', process.env.PASSWORD)
@@ -41,7 +41,13 @@ async function FollowersBot () {
         console.log(numberOfProfiles)
         divBox.scrollTop = divBox.scrollHeight;
   
-        if(numberOfProfiles === numberToStop){
+        if(numberToStop === numberOfProfiles || 
+          numberToStop === numberOfProfiles+1 || 
+          numberToStop === numberOfProfiles-1 || 
+          numberToStop === numberOfProfiles+2 ||
+          numberToStop === numberOfProfiles-2 ||
+          numberToStop === numberOfProfiles+3 ||
+          numberToStop === numberOfProfiles-3){
           document.querySelectorAll("div.d7ByH").item(numberOfProfiles-1).classList.add('lastItem')
           clearInterval(scrollingBox)
         }

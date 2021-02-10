@@ -42,7 +42,13 @@ async function FollowingBot () {
         console.log(numberOfProfiles)
         divBox.scrollTop = divBox.scrollHeight;
   
-        if(numberToStop === numberOfProfiles || numberToStop === numberOfProfiles+1 || numberToStop === numberOfProfiles+2 || numberToStop === numberOfProfiles+3){
+        if(numberToStop === numberOfProfiles || 
+          numberToStop === numberOfProfiles+1 || 
+          numberToStop === numberOfProfiles-1 || 
+          numberToStop === numberOfProfiles+2 ||
+          numberToStop === numberOfProfiles-2 ||
+          numberToStop === numberOfProfiles+3 ||
+          numberToStop === numberOfProfiles-3){
           document.querySelectorAll("div.d7ByH").item(numberOfProfiles).classList.add('lastItem')
           clearInterval(scrollingBox)
         }

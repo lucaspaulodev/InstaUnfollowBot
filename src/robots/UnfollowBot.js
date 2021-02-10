@@ -1,4 +1,5 @@
 const readlineSync = require('readline-sync')
+const SaveInDatabase = require('../utils/SaveInDatabase')
 
 async function UnfollowBot(nonMutualFollowers, page) {
     console.log('Initializing UnfollowBot')
@@ -26,7 +27,11 @@ async function UnfollowBot(nonMutualFollowers, page) {
                 }
             }, nonMutualFollowers)
 
-            await browser.close();
+            const data = nonMutualFollowers.splice(0, 20)
+
+            await SaveInDatabase(data)
+
+            await page.close();
         }
         else if (index === 1) {
             await page.evaluate((nonMutualFollowers) => {
@@ -50,7 +55,12 @@ async function UnfollowBot(nonMutualFollowers, page) {
             for (var i = 0; i < 40; i++) {
                 console.log(nonMutualFollowers[i])
             }
-            await browser.close();
+
+            const data = nonMutualFollowers.splice(0, 40)
+
+            await SaveInDatabase(data)
+
+            await page.close();
         }
         else if (index === 2) {
             await page.evaluate((nonMutualFollowers) => {
@@ -74,16 +84,22 @@ async function UnfollowBot(nonMutualFollowers, page) {
             for (var i = 0; i < 80; i++) {
                 console.log(nonMutualFollowers[i])
             }
-            await browser.close();
+
+            const data = nonMutualFollowers.splice(0, 80)
+
+            await SaveInDatabase(data)
+
+            await page.close();
         }
         else {
             console.log("You exited from the robot")
-            await browser.close();
+            await SaveInDatabase(nonMutualFollowers)
+            await page.close();
         }
     }
     else {
         console.log("You don´t have non-mutual followers!!")
-        await browser.close();
+        await page.close();
     }
 }
 
