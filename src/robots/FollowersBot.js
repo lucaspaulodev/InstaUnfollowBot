@@ -25,7 +25,7 @@ async function FollowersBot () {
   
     //Getting followers @
     await page.evaluate(() => {
-      var numberToStop = document.querySelector("ul > li:nth-child(2) > a > span").innerText
+      let numberToStop = document.querySelector("ul > li:nth-child(2) > a > span").innerText
   
       if(numberToStop.includes('.')){
         numberToStop = Number(numberToStop.replace('.',''))
@@ -36,7 +36,7 @@ async function FollowersBot () {
   
       console.log(numberToStop)
       const scrollingBox = window.setInterval(() => {
-        var numberOfProfiles = document.querySelectorAll("div.d7ByH").length-1
+        let numberOfProfiles = document.querySelectorAll("div.d7ByH").length-1
         const divBox = document.querySelector('.isgrP');
         console.log(numberOfProfiles)
         divBox.scrollTop = divBox.scrollHeight;

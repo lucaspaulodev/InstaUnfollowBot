@@ -4,11 +4,11 @@ const UnfollowBot = require('./robots/UnfollowBot')
 
 async function startInstagramUnfollowBot() {
   const followersProfiles = await FollowersBot()
-  const {followingProfiles, page} = await FollowingBot()
+  const {followingProfiles, page, browser} = await FollowingBot()
 
   const nonMutualFollowers = followingProfiles.filter(profile => !(followersProfiles.includes(profile)))
   
-  await UnfollowBot(nonMutualFollowers, page)
+  await UnfollowBot(nonMutualFollowers, page, browser)
 };
 
 startInstagramUnfollowBot();
